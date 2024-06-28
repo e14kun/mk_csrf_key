@@ -1,0 +1,20 @@
+# 32자리 키값
+select @now_ts:=unix_timestamp();select @tmp_j=1,
+-- @tmp_j:=1,
+-- length(
+HEX(AES_ENCRYPT(
+concat(12345678,unix_timestamp() , LPAD(FLOOR(RAND()*10000), 4, '0') ), 'itlc_doc')
+);select @tmp_j;select @now_ts;
+
+-- )
+
+# csrf code & unique key maker
+select 
+@now_ts:=unix_timestamp() as NOW_TS
+-- ,@now_sec:=right(cast(@now_ts as char(10)),1) as NOW_SEC
+,@now_sec:=right(@now_ts,1) as NOW_SEC
+,@rand_num:=LPAD(FLOOR(RAND()*10000000000), 10, '0') as RAND_NUM
+,@new_key:=concat(right(@rand_num,2),@now_sec,'csrf_ljy',@now_ts ,@rand_num) as NEW_KEY
+,@encrypt_code:=HEX(AES_ENCRYPT(@new_key, 'itlc')) as encrypt_code
+,length(@new_key) as key_size
+,length(@encrypt_code) as encrypt_size;
