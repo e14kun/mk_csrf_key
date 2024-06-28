@@ -1,3 +1,10 @@
+-- select FLOOR(RAND()*1000);
+select concat(unix_timestamp(),LPAD(FLOOR(RAND()*1000), 3, '0'));
+select MICROSECOND(now(6));
+select concat(unix_timestamp() , LPAD(FLOOR(RAND()*10000), 4, '0') );
+select unix_timestamp(); # ex) 1718849704 (초당) + random 4자리
+select LPAD(FLOOR(RAND()*10000), 4, '0');
+
 # 32자리 키값
 select @now_ts:=unix_timestamp();select @tmp_j=1,
 -- @tmp_j:=1,
