@@ -30,3 +30,13 @@ DELIMITER ;
 
 
 -- select doc_srch_jy_test.makekey('csrf_ljy','itlc_doc');
+
+# mysql regist trigger
+DELIMITER //
+CREATE DEFINER=`%`@`%`  TRIGGER doc_srch_jy_test.jy_doc_file_t_INSERT
+BEFORE INSERT ON doc_srch_jy_test.jy_doc_file_t FOR EACH row
+BEGIN
+  SET NEW.file_t_id = doc_srch_jy_test.makekey('itlc_chk','itlc_doc');
+end;
+//
+DELIMITER ;
