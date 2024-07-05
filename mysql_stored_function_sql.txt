@@ -1,6 +1,8 @@
 # mysql new random id stored function
 DELIMITER $$
-CREATE FUNCTION doc_srch_jy_test.makekey(CHECK_STR varchar(8),ENCRYPT_STR varchar(8))
+CREATE 
+-- DEFINER=`%`@`%` 
+FUNCTION doc_srch_jy_test.makekey(CHECK_STR varchar(8),ENCRYPT_STR varchar(8))
 -- CREATE DEFINER=`%`@`%` FUNCTION doc_srch_jy_test.makekey()
 RETURNS varchar(64) CHARSET utf8 
 NOT deterministic
