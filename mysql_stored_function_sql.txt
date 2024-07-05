@@ -1,0 +1,32 @@
+# mysql new random id stored function
+DELIMITER $$
+CREATE FUNCTION doc_srch_jy_test.makekey(CHECK_STR varchar(8),ENCRYPT_STR varchar(8))
+-- CREATE DEFINER=`%`@`%` FUNCTION doc_srch_jy_test.makekey()
+RETURNS varchar(64) CHARSET utf8 
+NOT deterministic
+-- READS SQL DATA
+COMMENT 'create random key'
+begin
+--	DECLARE CHECK_STR varchar(255) default null;
+--	DECLARE ENCRYPT_STR varchar(255) default null;
+	DECLARE MAKED_ID varchar(64) default null;
+
+	SET CHECK_STR='csrf_ljy';
+	SET ENCRYPT_STR='itlc_doc';
+	SET MAKED_ID=NULL;
+	select encrypt_code
+	into MAKED_ID 
+	from (select @CHECK_STR:=CHECK_STR,@ENCRYPT_STR:=ENCRYPT_STR,@now_ts:=unix_timestamp() as NOW_TS
+		,@now_sec:=right(@now_ts,1) as NOW_SEC
+		,@rand_num:=LPAD(FLOOR(RAND()*10000000000), 10, '0') as RAND_NUM
+		,@new_key:=concat(right(@rand_num,2),@now_sec,@CHECK_STR,@now_ts ,@rand_num) as NEW_KEY
+		,@encrypt_code:=HEX(AES_ENCRYPT(@new_key, @ENCRYPT_STR)) as encrypt_code
+		,length(@new_key) as key_size
+		,length(@encrypt_code) as encrypt_size
+	) tmp;
+	return MAKED_ID;
+end; $$
+DELIMITER ;
+
+
+-- select doc_srch_jy_test.makekey('csrf_ljy','itlc_doc');
