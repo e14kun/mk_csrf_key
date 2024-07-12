@@ -21,3 +21,6 @@ BEGIN
 END$$
 
 DELIMITER ;
+
+
+# use example) use doc_srch_jy_test;select doc_srch_jy_test.url_decode(step_req_header) from doc_srch_jy_test.jy_doc_file_t jdft 
